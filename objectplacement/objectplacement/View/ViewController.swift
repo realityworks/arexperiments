@@ -61,8 +61,8 @@ class ViewController: UIViewController {
         
         /// Setup the AR Scene delegate and plane detection
         sceneView.delegate = self
-        sceneView.showsStatistics = true
-        sceneView.debugOptions = [.showBoundingBoxes, .showFeaturePoints]
+        //sceneView.showsStatistics = true
+        //sceneView.debugOptions = [.showBoundingBoxes, .showFeaturePoints]
         
         worldTrackingConfiguration.planeDetection = .horizontal
         
