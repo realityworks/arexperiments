@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,8 @@
 		1D7ED36F25467842009594B8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D7ED36D25467842009594B8 /* Main.storyboard */; };
 		1D7ED37125467848009594B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D7ED37025467848009594B8 /* Assets.xcassets */; };
 		1D7ED37425467848009594B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D7ED37225467848009594B8 /* LaunchScreen.storyboard */; };
+		1D7ED37D25467F2A009594B8 /* ViewController+ARSCNViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7ED37C25467F2A009594B8 /* ViewController+ARSCNViewDelegate.swift */; };
+		1D7ED381254681ED009594B8 /* TinyConstraints in Frameworks */ = {isa = PBXBuildFile; productRef = 1D7ED380254681ED009594B8 /* TinyConstraints */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,7 @@
 		1D7ED37025467848009594B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1D7ED37325467848009594B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1D7ED37525467848009594B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1D7ED37C25467F2A009594B8 /* ViewController+ARSCNViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+ARSCNViewDelegate.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D7ED381254681ED009594B8 /* TinyConstraints in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +63,7 @@
 				1D7ED36725467842009594B8 /* AppDelegate.swift */,
 				1D7ED36925467842009594B8 /* SceneDelegate.swift */,
 				1D7ED36B25467842009594B8 /* ViewController.swift */,
+				1D7ED37C25467F2A009594B8 /* ViewController+ARSCNViewDelegate.swift */,
 				1D7ED36D25467842009594B8 /* Main.storyboard */,
 				1D7ED37025467848009594B8 /* Assets.xcassets */,
 				1D7ED37225467848009594B8 /* LaunchScreen.storyboard */,
@@ -83,6 +88,9 @@
 			dependencies = (
 			);
 			name = objectplacement;
+			packageProductDependencies = (
+				1D7ED380254681ED009594B8 /* TinyConstraints */,
+			);
 			productName = objectplacement;
 			productReference = 1D7ED36425467842009594B8 /* objectplacement.app */;
 			productType = "com.apple.product-type.application";
@@ -110,6 +118,9 @@
 				Base,
 			);
 			mainGroup = 1D7ED35B25467842009594B8;
+			packageReferences = (
+				1D7ED37F254681ED009594B8 /* XCRemoteSwiftPackageReference "TinyConstraints" */,
+			);
 			productRefGroup = 1D7ED36525467842009594B8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -137,6 +148,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D7ED37D25467F2A009594B8 /* ViewController+ARSCNViewDelegate.swift in Sources */,
 				1D7ED36C25467842009594B8 /* ViewController.swift in Sources */,
 				1D7ED36825467842009594B8 /* AppDelegate.swift in Sources */,
 				1D7ED36A25467842009594B8 /* SceneDelegate.swift in Sources */,
@@ -341,6 +353,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1D7ED37F254681ED009594B8 /* XCRemoteSwiftPackageReference "TinyConstraints" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/roberthein/TinyConstraints.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1D7ED380254681ED009594B8 /* TinyConstraints */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1D7ED37F254681ED009594B8 /* XCRemoteSwiftPackageReference "TinyConstraints" */;
+			productName = TinyConstraints;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1D7ED35C25467842009594B8 /* Project object */;
 }

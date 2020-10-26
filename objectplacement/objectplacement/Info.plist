@@ -47,6 +47,7 @@
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
+		<string>arkit</string>
 		<string>armv7</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
@@ -62,5 +63,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Required for AR</string>
 </dict>
 </plist>
