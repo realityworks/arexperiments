@@ -110,9 +110,9 @@ class ViewController: UIViewController {
         
         let point = sender.translation(in: sceneView)
         
-        /// Do a basic rotation around the main axis
+        /// Do a basic rotation around the Y axis
         let rotationAmount = (point.x * 3.147/180) + placedObjectRotate
-        placedObject.rotation = SCNVector4(0, 0, 1, rotationAmount)
+        placedObject.rotation = SCNVector4(0, 1, 0, rotationAmount)
         
         if sender.state == .ended {
             placedObjectRotate = rotationAmount
