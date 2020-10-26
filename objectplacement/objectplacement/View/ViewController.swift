@@ -43,7 +43,7 @@ class ViewController: UIViewController {
             .sink { [self] canPlace in
                 if canPlace {
                     canAddObjectLabel.backgroundColor = .green
-                    canAddObjectLabel.text = "PLANE DETECTED"
+                    canAddObjectLabel.text = "PLANE DETECTED - PLACE OBJECT"
                 } else {
                     // Add the plane detection label
                     canAddObjectLabel.textColor = .white
