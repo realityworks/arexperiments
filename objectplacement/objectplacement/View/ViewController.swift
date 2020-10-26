@@ -18,8 +18,10 @@ class ViewController: UIViewController {
     // MARK: AR Properties
     let worldTrackingConfiguration = ARWorldTrackingConfiguration()
     
-    // MARK: Model
+    // MARK: View Data
     var placedObject: SCNNode? = nil
+    var placedObjectScalar: CGFloat = 0.001
+    var placedObjectRotate: CGFloat = 0.0
     
     /// Custom view setup before appearing
     override func viewDidLoad() {
@@ -57,16 +59,27 @@ class ViewController: UIViewController {
     private func setupGestures() {
         /// Double tap gesture to place a new object
         let tapGesture = UITapGestureRecognizer(target: self,
-                                                action: #selector(addObjectTapResponse))
+                                                action: #selector(tapResponse))
         tapGesture.numberOfTapsRequired = 2
         sceneView.addGestureRecognizer(tapGesture)
         
         /// Pinch gesture to scale
+        let pinchGesture = UIPinchGestureRecognizer(target: self,
+                                                    action: #selector(pinchResponse))
+        sceneView.addGestureRecognizer(pinchGesture)
+        
+        /// Pan gesture to catch for rotation
+        let panGesture = UIPanGestureRecognizer(target: self,
+                                                action: #selector(panResponse))
+        panGesture.minimumNumberOfTouches = 1
+        sceneView.addGestureRecognizer(panGesture)
     }
+    
+    // MARK: Gesture Recognizers
     
     /// Handle the response when the user taps on the screen
     /// - Parameter sender: The TapGestureRecognizer
-    @objc func addObjectTapResponse(sender: UITapGestureRecognizer) {
+    @objc func tapResponse(sender: UITapGestureRecognizer) {
         guard let scene = sender.view as? ARSCNView else { return }
         
         /// Let's grab a ray cast result of the tap on to our ar scene
@@ -75,6 +88,35 @@ class ViewController: UIViewController {
         
         guard let rayCastResult = scene.session.raycast(rayCastQuery).first else { return }
         addObject(at: rayCastResult)
+    }
+    
+    /// Handle the response when the user pinches the screen
+    /// - Parameter sender: The PinchGestureRecognizer used in the pinch
+    @objc func pinchResponse(sender: UIPinchGestureRecognizer) {
+        guard let _ = sender.view as? ARSCNView,
+              let placedObject = placedObject else { return }
+        
+        placedObject.scale = SCNVector3(scalar: sender.scale * placedObjectScalar)
+        
+        /// When we finish pinching, the scalar value should be transformed into the new starting scalar value
+        if sender.state == .ended {
+            placedObjectScalar = sender.scale * placedObjectScalar
+        }
+    }
+    
+    @objc func panResponse(sender: UIPanGestureRecognizer) {
+        guard let _ = sender.view as? ARSCNView,
+              let placedObject = placedObject else { return }
+        
+        let point = sender.translation(in: sceneView)
+        
+        /// Do a basic rotation around the main axis
+        let rotationAmount = (point.x * 3.147/180) + placedObjectRotate
+        placedObject.rotation = SCNVector4(0, 0, 1, rotationAmount)
+        
+        if sender.state == .ended {
+            placedObjectRotate = rotationAmount
+        }
     }
     
     // MARK: Private AR Utilities
@@ -92,14 +134,13 @@ class ViewController: UIViewController {
         
         referenceNode.load()
         referenceNode.position = position
+        
+        // Setup the default scalar on placement
+        referenceNode.scale = SCNVector3(scalar: placedObjectScalar)
+        
         sceneView.scene.rootNode.addChildNode(referenceNode)
         
         placedObject = referenceNode
-    }
-    
-    private func scaleObject(_ scale: CGFloat) {
-        guard let placedObject = placedObject else { return }
-        placedObject.scale = SCNVector3(scalar: scale)
     }
 }
 
