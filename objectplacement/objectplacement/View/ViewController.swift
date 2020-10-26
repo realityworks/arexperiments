@@ -54,6 +54,7 @@ class ViewController: UIViewController {
             .store(in: &cancellables)
     }
     
+    /// Configure the ARKit Scene used for detecting planes and objects
     private func setupARScene() {
         /// Just use tiny constraints here to add the subview instead of having to add IB contraints
         self.view.addSubview(sceneView)
