@@ -99,7 +99,7 @@ class ViewController: UIViewController {
     
     private func scaleObject(_ scale: CGFloat) {
         guard let placedObject = placedObject else { return }
-        placedObject.scale = SCNVector3(
+        placedObject.scale = SCNVector3(scalar: scale)
     }
 }
 
