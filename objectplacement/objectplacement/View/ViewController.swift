@@ -18,6 +18,9 @@ class ViewController: UIViewController {
     // MARK: AR Properties
     let worldTrackingConfiguration = ARWorldTrackingConfiguration()
     
+    // MARK: Model
+    var placedObject: SCNNode? = nil
+    
     /// Custom view setup before appearing
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +60,8 @@ class ViewController: UIViewController {
                                                 action: #selector(addObjectTapResponse))
         tapGesture.numberOfTapsRequired = 2
         sceneView.addGestureRecognizer(tapGesture)
+        
+        /// Pinch gesture to scale
     }
     
     /// Handle the response when the user taps on the screen
@@ -74,6 +79,8 @@ class ViewController: UIViewController {
     
     // MARK: Private AR Utilities
     
+    /// Add the object at a ray intersection
+    /// - Parameter result: ARRaycastResult that contains the transform of the intersection.
     private func addObject(at result: ARRaycastResult) {
         let position = result.worldTransform.position()
         
@@ -86,6 +93,13 @@ class ViewController: UIViewController {
         referenceNode.load()
         referenceNode.position = position
         sceneView.scene.rootNode.addChildNode(referenceNode)
+        
+        placedObject = referenceNode
+    }
+    
+    private func scaleObject(_ scale: CGFloat) {
+        guard let placedObject = placedObject else { return }
+        placedObject.scale = SCNVector3(
     }
 }
 

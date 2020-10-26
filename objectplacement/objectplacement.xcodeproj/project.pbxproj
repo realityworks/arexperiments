@@ -17,6 +17,7 @@
 		1D7ED381254681ED009594B8 /* TinyConstraints in Frameworks */ = {isa = PBXBuildFile; productRef = 1D7ED380254681ED009594B8 /* TinyConstraints */; };
 		1D7ED38525468CD1009594B8 /* gramophone.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 1D7ED38425468CD1009594B8 /* gramophone.usdz */; };
 		1D7ED38925469C9F009594B8 /* Simd+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7ED38825469C9F009594B8 /* Simd+Extensions.swift */; };
+		1D7ED38E2547030F009594B8 /* SCNVector+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7ED38D2547030F009594B8 /* SCNVector+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		1D7ED37C25467F2A009594B8 /* ViewController+ARSCNViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+ARSCNViewDelegate.swift"; sourceTree = "<group>"; };
 		1D7ED38425468CD1009594B8 /* gramophone.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = gramophone.usdz; sourceTree = "<group>"; };
 		1D7ED38825469C9F009594B8 /* Simd+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Simd+Extensions.swift"; sourceTree = "<group>"; };
+		1D7ED38D2547030F009594B8 /* SCNVector+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNVector+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,18 +66,51 @@
 		1D7ED36625467842009594B8 /* objectplacement */ = {
 			isa = PBXGroup;
 			children = (
+				1D7ED39125470324009594B8 /* Resources */,
+				1D7ED39025470316009594B8 /* App */,
+				1D7ED39225470362009594B8 /* View */,
+				1D7ED3932547036E009594B8 /* Utilities */,
+			);
+			path = objectplacement;
+			sourceTree = "<group>";
+		};
+		1D7ED39025470316009594B8 /* App */ = {
+			isa = PBXGroup;
+			children = (
 				1D7ED36725467842009594B8 /* AppDelegate.swift */,
 				1D7ED36925467842009594B8 /* SceneDelegate.swift */,
-				1D7ED36B25467842009594B8 /* ViewController.swift */,
-				1D7ED37C25467F2A009594B8 /* ViewController+ARSCNViewDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		1D7ED39125470324009594B8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
 				1D7ED38425468CD1009594B8 /* gramophone.usdz */,
 				1D7ED36D25467842009594B8 /* Main.storyboard */,
 				1D7ED37025467848009594B8 /* Assets.xcassets */,
 				1D7ED37225467848009594B8 /* LaunchScreen.storyboard */,
 				1D7ED37525467848009594B8 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		1D7ED39225470362009594B8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1D7ED36B25467842009594B8 /* ViewController.swift */,
+				1D7ED37C25467F2A009594B8 /* ViewController+ARSCNViewDelegate.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1D7ED3932547036E009594B8 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				1D7ED38D2547030F009594B8 /* SCNVector+Extensions.swift */,
 				1D7ED38825469C9F009594B8 /* Simd+Extensions.swift */,
 			);
-			path = objectplacement;
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,6 +191,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D7ED37D25467F2A009594B8 /* ViewController+ARSCNViewDelegate.swift in Sources */,
+				1D7ED38E2547030F009594B8 /* SCNVector+Extensions.swift in Sources */,
 				1D7ED38925469C9F009594B8 /* Simd+Extensions.swift in Sources */,
 				1D7ED36C25467842009594B8 /* ViewController.swift in Sources */,
 				1D7ED36825467842009594B8 /* AppDelegate.swift in Sources */,
