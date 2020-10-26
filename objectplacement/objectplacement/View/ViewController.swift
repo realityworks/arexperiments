@@ -110,7 +110,8 @@ class ViewController: UIViewController {
     /// Handle the response when the user double taps on the screen
     /// - Parameter sender: The TapGestureRecognizer
     @objc func doubleTapResponse(sender: UITapGestureRecognizer) {
-        guard let scene = sender.view as? ARSCNView else { return }
+        guard viewModel.canPlaceObject.value,
+              let scene = sender.view as? ARSCNView else { return }
         
         /// Let's grab a ray cast result of the tap on to our ar scene
         let tapAtLocation = sender.location(in: scene)
