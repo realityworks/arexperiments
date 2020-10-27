@@ -6,12 +6,13 @@
 //
 
 import SceneKit
+import ARKit
 
 extension ViewController {
     
     /// Add the object at a ray intersection
     /// - Parameter result: ARRaycastResult that contains the transform of the intersection.
-    private func addObject(at result: ARRaycastResult) {
+    func addObject(at result: ARRaycastResult) {
         #warning("TODO: remove this before push")
         //guard viewModel.placedObject == nil else { return }
         
@@ -39,14 +40,15 @@ extension ViewController {
     
     /// Move the object to a location
     /// - Parameter result: A raycast result that contains the world transform of the raycast intersection with world position
-    private func moveObject(to result: ARRaycastResult) {
+    func moveObject(to result: ARRaycastResult) {
         guard let selectedObject = viewModel.selectedObject else { return }
         
         let position = result.worldTransform.position()
         selectedObject.node.position = position
     }
     
-    private func placedObject(at point: CGPoint) -> PlacedObject? {
+    func placedObject(at point: CGPoint) -> PlacedObject? {
+        /// This is deprecated, but raycasts don't seem to return anchors for nodes? How should this work.
         let hitTestOptions: [SCNHitTestOption: Any] = [.boundingBoxOnly: true]
         let hitTestResults = sceneView.hitTest(point, options: hitTestOptions)
         

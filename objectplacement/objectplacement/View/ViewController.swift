@@ -129,11 +129,10 @@ class ViewController: UIViewController {
         /// Let's grab a ray cast result of the tap on to our ar scene
         let tapAtLocation = sender.location(in: arScene)
         
-        guard let objectRayCastQuery = arScene.raycastQuery(from: tapAtLocation,
-                                                            allowing: .estimatedPlane,
-                                                            alignment: .any) else { return }
-        if let objectRayCastResult = arScene.session.raycast(objectRayCastQuery).first {
-            print("HITSOMETHING")
+        /// Check if we tapped on an existing object, if so select it, otherwise, cast a ray to the world
+        if let placedObject = placedObject(at: tapAtLocation) {
+            viewModel.selectObject(object: placedObject)
+            return
         }
         
         guard let worldRayCastQuery = arScene.raycastQuery(from: tapAtLocation,

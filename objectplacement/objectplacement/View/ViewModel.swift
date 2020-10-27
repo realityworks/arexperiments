@@ -27,18 +27,25 @@ class ViewModel {
         placedObjects.append(object)
     }
     
-    func selectObjectWith(node: SCNNode) {
-        /// Sanity test to make sure object exists
-        guard let newSelectedObject = placedObjectForNode(node: node) else { return }
-        
+    /// Select the placed object specified and activate visual changes showing selection
+    /// - Parameter object: The object to select
+    func selectObject(object: PlacedObject) {
         #warning("TODO : Add material when the object is selected")
         //let material = SCNMaterialProperty()
         //newSelectedObject.node.geometry?.firstMaterial?.diffuse =
+        print ("Selected Object!")
+        selectedObject = object
     }
     
-    func object(for node: SCNNode) -> PlacedObject? {
-        return placedObjects.first { object -> Bool in
-            object.node == node
+    /// Find the placedobject associated with the node. The node to search for can be in any part of the hierarchy where the PlacedObject is the parent
+    /// - Parameter node: The node to look for, `nil` is acceptable.
+    /// - Returns: A PlacedObject corresponding to the node
+    func object(for node: SCNNode?) -> PlacedObject? {
+        guard let node = node else { return nil }
+        guard let foundObject: PlacedObject = placedObjects.first(where: { $0.node == node }) else {
+            return object(for: node.parent)
         }
+        
+        return foundObject
     }
 }
