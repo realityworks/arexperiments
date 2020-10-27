@@ -21,6 +21,6 @@ extension ViewController : ARSCNViewDelegate {
         // Casting rays
         guard anchor is ARPlaneAnchor else { return }
         
-        viewModel.canPlaceObject.send(true)
+        viewModel.hasDetectedPlane.send(true)
     }
 }

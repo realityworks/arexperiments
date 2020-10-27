@@ -24,6 +24,8 @@ class ViewController: UIViewController {
     let viewModel = ViewModel()
     var cancellables = Set<AnyCancellable>()
     
+    // MARK: View Lifecycle
+    
     /// Custom view setup before appearing
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +40,7 @@ class ViewController: UIViewController {
         canAddObjectLabel.height(40)
         
         // Setup the view model binding
-        viewModel.canPlaceObject
+        viewModel.hasDetectedPlane
             .receive(on: DispatchQueue.main)
             .sink { [self] canPlace in
                 if canPlace {
@@ -54,6 +56,14 @@ class ViewController: UIViewController {
             .store(in: &cancellables)
     }
     
+    /// View did appear override
+    /// - Parameter animated: Animated appearance
+    override func viewDidAppear(_ animated: Bool) {
+        /// Run a session with reset tracking everytime the view appears
+        sceneView.session.run(worldTrackingConfiguration, options: [.resetTracking])
+        viewModel.hasDetectedPlane.send(false)
+    }
+    
     /// Configure the ARKit Scene used for detecting planes and objects
     private func setupARScene() {
         /// Just use tiny constraints here to add the subview instead of having to add IB contraints
@@ -62,12 +72,13 @@ class ViewController: UIViewController {
         
         /// Setup the AR Scene delegate and plane detection
         sceneView.delegate = self
+        sceneView.automaticallyUpdatesLighting = true
+        
         //sceneView.showsStatistics = true
         //sceneView.debugOptions = [.showBoundingBoxes, .showFeaturePoints]
         
         worldTrackingConfiguration.planeDetection = .horizontal
-        
-        sceneView.session.run(worldTrackingConfiguration)
+        worldTrackingConfiguration.environmentTexturing = .automatic
         
         /// Add a simple global light node
         let globalLight: SCNNode = SCNNode()
@@ -110,7 +121,7 @@ class ViewController: UIViewController {
     /// Handle the response when the user double taps on the screen
     /// - Parameter sender: The TapGestureRecognizer
     @objc func doubleTapResponse(sender: UITapGestureRecognizer) {
-        guard viewModel.canPlaceObject.value,
+        guard viewModel.hasDetectedPlane.value,
               let scene = sender.view as? ARSCNView else { return }
         
         /// Let's grab a ray cast result of the tap on to our ar scene
