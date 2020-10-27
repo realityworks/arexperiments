@@ -26,7 +26,11 @@ class ViewModel {
     /// Select the placed object specified and activate visual changes showing selection
     /// - Parameter object: The object to select
     func select(object: PlacedObject) {
-        deselect() // Deselect current object
+        let curSelectedObject = selectedObject
+        deselect()
+        
+        // Don't select the same object twice
+        guard object.node != curSelectedObject?.node else { return }
         
         selectedObject = object
         selectedObject?.node.opacity = 0.7
