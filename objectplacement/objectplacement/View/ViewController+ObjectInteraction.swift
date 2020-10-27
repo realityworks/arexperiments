@@ -13,9 +13,6 @@ extension ViewController {
     /// Add the object at a ray intersection
     /// - Parameter result: ARRaycastResult that contains the transform of the intersection.
     func addObject(at result: ARRaycastResult) {
-        #warning("TODO: remove this before push")
-        //guard viewModel.placedObject == nil else { return }
-        
         let position = result.worldTransform.position()
         
         // Pull out the gramaphone usdz file
@@ -28,13 +25,13 @@ extension ViewController {
         referenceNode.load()
         referenceNode.position = position
         
-        // Setup the default scalar on placement
-        referenceNode.scale = SCNVector3(scalar: viewModel.placedObjectScalar)
-        
         sceneView.scene.rootNode.addChildNode(referenceNode)
         
-        //viewModel.placedObject = referenceNode
+        // Setup the placed object from the node
         let placedObject = PlacedObject(node: referenceNode)
+        referenceNode.scale = SCNVector3(scalar: placedObject.scalar)
+        
+        // Add our new object
         viewModel.addObject(object: placedObject)
     }
     
