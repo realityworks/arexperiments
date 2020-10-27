@@ -25,9 +25,16 @@ class ViewModel {
     
     /// Select the placed object specified and activate visual changes showing selection
     /// - Parameter object: The object to select
-    func selectObject(object: PlacedObject) {
+    func select(object: PlacedObject) {
+        deselect() // Deselect current object
+        
         selectedObject = object
         selectedObject?.node.opacity = 0.7
+    }
+    
+    func deselect() {
+        guard let selectedObject = selectedObject else { return }
+        selectedObject.node.opacity = 1
     }
     
     /// Find the placedobject associated with the node. The node to search for can be in any part of the hierarchy where the PlacedObject is the parent

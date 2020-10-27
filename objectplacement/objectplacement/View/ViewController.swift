@@ -142,16 +142,15 @@ class ViewController: UIViewController {
         
         /// Check if we tapped on an existing object, if so select it, otherwise, cast a ray to the world
         if let placedObject = placedObject(at: tapAtLocation) {
-            viewModel.selectObject(object: placedObject)
-            return
+            viewModel.select(object: placedObject)
+        } else {
+            guard let worldRayCastQuery = arScene.raycastQuery(from: tapAtLocation,
+                                                          allowing: .existingPlaneInfinite,
+                                                          alignment: .horizontal) else { return }
+            guard let worldRayCastResult = arScene.session.raycast(worldRayCastQuery).first else { return }
+            
+            moveObject(to: worldRayCastResult)
         }
-        
-        guard let worldRayCastQuery = arScene.raycastQuery(from: tapAtLocation,
-                                                      allowing: .existingPlaneInfinite,
-                                                      alignment: .horizontal) else { return }
-        guard let worldRayCastResult = arScene.session.raycast(worldRayCastQuery).first else { return }
-        
-        moveObject(to: worldRayCastResult)
     }
     
     /// Handle the response when the user pinches the screen
