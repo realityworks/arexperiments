@@ -144,6 +144,7 @@ class ViewController: UIViewController {
         if let placedObject = placedObject(at: tapAtLocation) {
             viewModel.select(object: placedObject)
         } else {
+            viewModel.deselect() // Tap off will deselect the object
             guard let worldRayCastQuery = arScene.raycastQuery(from: tapAtLocation,
                                                           allowing: .existingPlaneInfinite,
                                                           alignment: .horizontal) else { return }
