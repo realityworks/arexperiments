@@ -39,6 +39,7 @@ class ViewModel {
     func deselect() {
         guard let selectedObject = selectedObject else { return }
         selectedObject.node.opacity = 1
+        self.selectedObject = nil
     }
     
     /// Find the placedobject associated with the node. The node to search for can be in any part of the hierarchy where the PlacedObject is the parent
