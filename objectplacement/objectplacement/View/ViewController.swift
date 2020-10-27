@@ -87,7 +87,7 @@ class ViewController: UIViewController {
         doubleTapGesture.numberOfTapsRequired = 2
         sceneView.addGestureRecognizer(doubleTapGesture)
         
-        /// Double tap gesture to move object
+        /// Single tap gesture to move or select object
         let tapGesture = UITapGestureRecognizer(target: self,
                                                 action: #selector(tapResponse))
         tapGesture.numberOfTapsRequired = 1
@@ -124,27 +124,37 @@ class ViewController: UIViewController {
     /// Handle the response when the user taps on the screen
     /// - Parameter sender: The TapGestureRecognizer
     @objc func tapResponse(sender: UITapGestureRecognizer) {
-        guard let scene = sender.view as? ARSCNView else { return }
+        guard let arScene = sender.view as? ARSCNView else { return }
         
         /// Let's grab a ray cast result of the tap on to our ar scene
-        let tapAtLocation = sender.location(in: scene)
-        guard let rayCastQuery = scene.raycastQuery(from: tapAtLocation, allowing: .existingPlaneInfinite, alignment: .horizontal) else { return }
+        let tapAtLocation = sender.location(in: arScene)
         
-        guard let rayCastResult = scene.session.raycast(rayCastQuery).first else { return }
-        moveObject(to: rayCastResult)
+        guard let objectRayCastQuery = arScene.raycastQuery(from: tapAtLocation,
+                                                            allowing: .estimatedPlane,
+                                                            alignment: .any) else { return }
+        if let objectRayCastResult = arScene.session.raycast(objectRayCastQuery).first {
+            print("HITSOMETHING")
+        }
+        
+        guard let worldRayCastQuery = arScene.raycastQuery(from: tapAtLocation,
+                                                      allowing: .existingPlaneInfinite,
+                                                      alignment: .horizontal) else { return }
+        guard let worldRayCastResult = arScene.session.raycast(worldRayCastQuery).first else { return }
+        
+        moveObject(to: worldRayCastResult)
     }
     
     /// Handle the response when the user pinches the screen
     /// - Parameter sender: The PinchGestureRecognizer used in the pinch
     @objc func pinchResponse(sender: UIPinchGestureRecognizer) {
         guard let _ = sender.view as? ARSCNView,
-              let placedObject = viewModel.placedObject else { return }
+              let selectedObject = viewModel.selectedObject else { return }
         
-        placedObject.scale = SCNVector3(scalar: sender.scale * viewModel.placedObjectScalar)
+        selectedObject.node.scale = SCNVector3(scalar: sender.scale * selectedObject.scalar)
         
         /// When we finish pinching, the scalar value should be transformed into the new starting scalar value
         if sender.state == .ended {
-            viewModel.placedObjectScalar = sender.scale * viewModel.placedObjectScalar
+            selectedObject.scalar *= sender.scale
         }
     }
     
@@ -152,53 +162,17 @@ class ViewController: UIViewController {
     /// - Parameter sender: The PanGestureRecognizer
     @objc func panResponse(sender: UIPanGestureRecognizer) {
         guard let _ = sender.view as? ARSCNView,
-              let placedObject = viewModel.placedObject else { return }
+              let selectedObject = viewModel.selectedObject else { return }
         
         let point = sender.translation(in: sceneView)
         
         /// Do a basic rotation around the Y axis
-        let rotationAmount = (point.x * 3.147/180) + viewModel.placedObjectRotate
-        placedObject.rotation = SCNVector4(0, 1, 0, rotationAmount)
+        let rotationAmount = (point.x * 3.147/180) + selectedObject.rotation
+        selectedObject.node.rotation = SCNVector4(0, 1, 0, rotationAmount)
         
         if sender.state == .ended {
-            viewModel.placedObjectRotate = rotationAmount
+            selectedObject.rotation = rotationAmount
         }
-    }
-    
-    // MARK: Private AR Utilities
-    
-    /// Add the object at a ray intersection
-    /// - Parameter result: ARRaycastResult that contains the transform of the intersection.
-    private func addObject(at result: ARRaycastResult) {
-        guard viewModel.placedObject == nil else { return }
-        
-        let position = result.worldTransform.position()
-        
-        // Pull out the gramaphone usdz file 
-        guard let url = Bundle.main.url(forResource: "gramophone",
-                                        withExtension: "usdz"),
-              let referenceNode = SCNReferenceNode(url: url) else {
-            return
-        }
-        
-        referenceNode.load()
-        referenceNode.position = position
-        
-        // Setup the default scalar on placement
-        referenceNode.scale = SCNVector3(scalar: viewModel.placedObjectScalar)
-        
-        sceneView.scene.rootNode.addChildNode(referenceNode)
-        
-        viewModel.placedObject = referenceNode
-    }
-    
-    /// Move the object to a location
-    /// - Parameter result: A raycast result that contains the world transform of the raycast intersection with world position
-    private func moveObject(to result: ARRaycastResult) {
-        guard let placedObject = viewModel.placedObject else { return }
-        
-        let position = result.worldTransform.position()
-        placedObject.position = position
     }
 }
 
